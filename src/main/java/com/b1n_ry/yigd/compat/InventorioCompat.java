@@ -112,7 +112,7 @@ public class InventorioCompat implements InvModCompat<DefaultedList<ItemStack>> 
             YigdConfig.CompatConfig compatConfig = YigdConfig.getConfig().compatConfig;
             DefaultedList<ItemStack> soulboundItems = DefaultedList.ofSize(this.inventory.size(), ItemStack.EMPTY);
 
-            Vec3d deathPos = context.getDeathPos();
+            Vec3d deathPos = context.deathPos();
             for (int i = 0; i < this.inventory.size(); i++) {
                 ItemStack stack = this.inventory.get(i);
 
@@ -122,7 +122,7 @@ public class InventorioCompat implements InvModCompat<DefaultedList<ItemStack>> 
 
                 switch (dropRule) {
                     case KEEP -> soulboundItems.set(i, stack);
-                    case DROP -> InventoryComponent.dropItemIfToBeDropped(stack, deathPos.x, deathPos.y, deathPos.z, context.getWorld());
+                    case DROP -> InventoryComponent.dropItemIfToBeDropped(stack, deathPos.x, deathPos.y, deathPos.z, context.world());
                 }
                 if (dropRule != DropRule.PUT_IN_GRAVE)
                     this.inventory.set(i, ItemStack.EMPTY);

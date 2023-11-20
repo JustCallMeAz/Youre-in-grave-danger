@@ -112,7 +112,7 @@ public class InventoryComponent {
         YigdConfig config = YigdConfig.getConfig();
         if (config.inventoryConfig.dropPlayerHead) {
             ItemStack playerHead = new ItemStack(Items.PLAYER_HEAD);
-            NbtCompound profileNbt = NbtHelper.writeGameProfile(new NbtCompound(), context.getPlayer().getGameProfile());
+            NbtCompound profileNbt = NbtHelper.writeGameProfile(new NbtCompound(), context.player().getGameProfile());
             playerHead.setSubNbt("SkullOwner", profileNbt);
             this.items.add(playerHead);
         }
@@ -134,12 +134,12 @@ public class InventoryComponent {
         for (int i = 0; i < this.items.size(); i++) {
             ItemStack item = this.items.get(i);
 
-            Vec3d deathPos = context.getDeathPos();
+            Vec3d deathPos = context.deathPos();
 
             DropRule dropRule = DropRuleEvent.EVENT.invoker().getDropRule(item, i, context, true);
             switch (dropRule) {
                 case KEEP -> soulboundInventory.items.set(i, item);
-                case DROP -> InventoryComponent.dropItemIfToBeDropped(item, deathPos.x, deathPos.y, deathPos.z, context.getWorld());
+                case DROP -> InventoryComponent.dropItemIfToBeDropped(item, deathPos.x, deathPos.y, deathPos.z, context.world());
             }
 
             if (dropRule != DropRule.PUT_IN_GRAVE)

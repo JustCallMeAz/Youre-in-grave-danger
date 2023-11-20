@@ -63,48 +63,31 @@ public class GraveSelectionGui extends LightweightGuiDescription {
         return listPanel;
     }
     private void addFilterButtons(WGridPanel root, WFilterableListPanel<LightGraveData, WCardButton> filterableList) {
-        TextureIcon viewClaimedOn = new TextureIcon(new Identifier(Yigd.MOD_ID, "textures/gui/claimed_grave.png"));
-        TextureIcon viewClaimedOff = new TextureIcon(new Identifier(Yigd.MOD_ID, "textures/gui/claimed_grave_cross.png"));
-        WHoverToggleButton viewClaimed = new WHoverToggleButton(
-                viewClaimedOn,
-                Text.translatable("text.yigd.gui.btn.viewing_claimed"),
-                viewClaimedOff,
-                Text.translatable("text.yigd.gui.btn.hiding_claimed"));
-        TextureIcon viewUnclaimedOn = new TextureIcon(new Identifier(Yigd.MOD_ID, "textures/gui/unclaimed_grave.png"));
-        TextureIcon viewUnclaimedOff = new TextureIcon(new Identifier(Yigd.MOD_ID, "textures/gui/unclaimed_grave_cross.png"));
-        WHoverToggleButton viewUnclaimed = new WHoverToggleButton(
-                viewUnclaimedOn,
-                Text.translatable("text.yigd.gui.btn.viewing_unclaimed"),
-                viewUnclaimedOff,
-                Text.translatable("text.yigd.gui.btn.hiding_unclaimed"));
-        TextureIcon viewDestroyedOn = new TextureIcon(new Identifier(Yigd.MOD_ID, "textures/gui/destroyed_grave.png"));
-        TextureIcon viewDestroyedOff = new TextureIcon(new Identifier(Yigd.MOD_ID, "textures/gui/destroyed_grave_cross.png"));
-        WHoverToggleButton viewDestroyed = new WHoverToggleButton(
-                viewDestroyedOn,
-                Text.translatable("text.yigd.gui.btn.viewing_destroyed"),
-                viewDestroyedOff,
-                Text.translatable("text.yigd.gui.btn.hiding_destroyed"));
-        TextureIcon showStatusOn = new TextureIcon(new Identifier(Yigd.MOD_ID, "textures/gui/show_status.png"));
-        TextureIcon showStatusOff = new TextureIcon(new Identifier(Yigd.MOD_ID, "textures/gui/hide_status.png"));
-        WHoverToggleButton showStatus = new WHoverToggleButton(
-                showStatusOn,
-                Text.translatable("text.yigd.gui.btn.showing_status"),
-                showStatusOff,
-                Text.translatable("text.yigd.gui.btn.hiding_status"));
+        WHoverToggleButton viewClaimed = this.createWHoverToggleButton(
+                "textures/gui/claimed_grave.png",
+                "textures/gui/claimed_grave_cross.png",
+                "button.yigd.gui.viewing_claimed",
+                "button.yigd.gui.hiding_claimed");
+        WHoverToggleButton viewUnclaimed = this.createWHoverToggleButton(
+                "textures/gui/unclaimed_grave.png",
+                "textures/gui/unclaimed_grave_cross.png",
+                "button.yigd.gui.viewing_unclaimed",
+                "button.yigd.gui.hiding_unclaimed");
+        WHoverToggleButton viewDestroyed = this.createWHoverToggleButton(
+                "textures/gui/destroyed_grave.png",
+                "textures/gui/destroyed_grave_cross.png",
+                "button.yigd.gui.viewing_destroyed",
+                "button.yigd.gui.hiding_destroyed");
+        WHoverToggleButton showStatus = this.createWHoverToggleButton(
+                "textures/gui/show_status.png",
+                "textures/gui/hide_status.png",
+                "button.yigd.gui.showing_status",
+                "button.yigd.gui.hiding_status");
 
         // a == b && bool <=> a == b if bool, else a != b
-        viewClaimed.setOnToggle(aBoolean -> {
-            filterableList.setFilter("claimed", graveData -> graveData.status() == GraveStatus.CLAIMED && aBoolean);
-            /*listPanel.reload();*/
-        });
-        viewUnclaimed.setOnToggle(aBoolean -> {
-            filterableList.setFilter("unclaimed", graveData -> graveData.status() == GraveStatus.UNCLAIMED && aBoolean);
-            /*listPanel.reload();*/
-        });
-        viewDestroyed.setOnToggle(aBoolean -> {
-            filterableList.setFilter("destroyed", graveData -> graveData.status() == GraveStatus.DESTROYED && aBoolean);
-            /*listPanel.reload();*/
-        });
+        viewClaimed.setOnToggle(aBoolean -> filterableList.setFilter("claimed", graveData -> graveData.status() == GraveStatus.CLAIMED && aBoolean));
+        viewUnclaimed.setOnToggle(aBoolean -> filterableList.setFilter("unclaimed", graveData -> graveData.status() == GraveStatus.UNCLAIMED && aBoolean));
+        viewDestroyed.setOnToggle(aBoolean -> filterableList.setFilter("destroyed", graveData -> graveData.status() == GraveStatus.DESTROYED && aBoolean));
 
         showStatus.setOnToggle(aBoolean -> {
             for (WCardButton card : filterableList.getWidgets()) {
@@ -121,6 +104,17 @@ public class GraveSelectionGui extends LightweightGuiDescription {
         root.add(viewUnclaimed, 12, 2);
         root.add(viewDestroyed, 12, 3);
         root.add(showStatus, 12, 4);
+    }
+
+    private WHoverToggleButton createWHoverToggleButton(String enabledSprite, String disabledSprite, String enabledTranslationKey, String disabledTranslationKey) {
+
+        TextureIcon viewClaimedOn = new TextureIcon(new Identifier(Yigd.MOD_ID, enabledSprite));
+        TextureIcon viewClaimedOff = new TextureIcon(new Identifier(Yigd.MOD_ID, disabledSprite));
+        return new WHoverToggleButton(
+                viewClaimedOn,
+                Text.translatable(enabledTranslationKey),
+                viewClaimedOff,
+                Text.translatable(disabledTranslationKey));
     }
 
     public Screen getPreviousScreen() {

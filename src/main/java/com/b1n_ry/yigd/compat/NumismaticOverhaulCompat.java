@@ -72,20 +72,20 @@ public class NumismaticOverhaulCompat implements InvModCompat<Long> {
         public CompatComponent<Long> handleDropRules(DeathContext context) {
             YigdConfig.CompatConfig compatConfig = YigdConfig.getConfig().compatConfig;
 
-            int dropRate = context.getWorld().getGameRules().get(NumismaticOverhaul.MONEY_DROP_PERCENTAGE).get();
+            int dropRate = context.world().getGameRules().get(NumismaticOverhaul.MONEY_DROP_PERCENTAGE).get();
             float dropFactor = dropRate * 0.01f;
             float keepFactor = Math.max(1 - dropFactor, 0);  // In case someone set the gamerule to like 10000, so negative numbers won't be reached
 
             long soulbound = (long) (this.inventory * keepFactor);
             this.inventory -= soulbound;
 
-            Vec3d deathPos = context.getDeathPos();
+            Vec3d deathPos = context.deathPos();
             for (ItemStack stack : CurrencyConverter.getAsItemStackArray(this.inventory)) {
                 DropRule dropRule = compatConfig.defaultNumismaticDropRule;
                 if (dropRule == DropRule.PUT_IN_GRAVE)
                     dropRule = DropRuleEvent.EVENT.invoker().getDropRule(stack, -1, context, true);
                 switch (dropRule) {
-                    case DROP -> InventoryComponent.dropItemIfToBeDropped(stack, deathPos.x, deathPos.y, deathPos.z, context.getWorld());
+                    case DROP -> InventoryComponent.dropItemIfToBeDropped(stack, deathPos.x, deathPos.y, deathPos.z, context.world());
                     case DESTROY -> this.inventory = 0L;
                     case KEEP -> soulbound += this.inventory;
                 }
