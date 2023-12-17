@@ -28,6 +28,7 @@ public class ServerEventHandler {
 
             ServerWorld overworld = server.getOverworld();
             DeathInfoManager.INSTANCE = overworld.getPersistentStateManager().getOrCreate(DeathInfoManager.getPersistentStateType(server), "yigd_data");
+
             DeathInfoManager.INSTANCE.markDirty();
         });
 

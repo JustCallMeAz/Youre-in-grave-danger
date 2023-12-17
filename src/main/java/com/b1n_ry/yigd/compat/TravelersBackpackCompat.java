@@ -93,9 +93,9 @@ public class TravelersBackpackCompat implements InvModCompat<ItemStack> {
 
             TBCompatComponent soulboundComponent = new TBCompatComponent(dropRule == DropRule.KEEP ? this.inventory : ItemStack.EMPTY);
 
-            Vec3d deathPos = context.getDeathPos();
+            Vec3d deathPos = context.deathPos();
             if (dropRule == DropRule.DROP)
-                InventoryComponent.dropItemIfToBeDropped(this.inventory, deathPos.x, deathPos.y, deathPos.z, context.getWorld());
+                InventoryComponent.dropItemIfToBeDropped(this.inventory, deathPos.x, deathPos.y, deathPos.z, context.world());
 
             if (dropRule != DropRule.PUT_IN_GRAVE)
                 this.clear();

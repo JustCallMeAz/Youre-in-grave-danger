@@ -34,7 +34,7 @@ public class DeathInfoManager extends PersistentState {
 
 
     public static PersistentState.Type<DeathInfoManager> getPersistentStateType(MinecraftServer server) {
-        return new PersistentState.Type<>(DeathInfoManager::new, (nbt) -> fromNbt(nbt, server), DataFixTypes.SAVED_DATA_RAIDS);
+        return new PersistentState.Type<>(DeathInfoManager::new, nbt -> DeathInfoManager.fromNbt(nbt, server), DataFixTypes.LEVEL);
     }
 
     public void clear() {

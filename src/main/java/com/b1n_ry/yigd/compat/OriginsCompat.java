@@ -173,7 +173,7 @@ public class OriginsCompat implements InvModCompat<Map<String, DefaultedList<Ite
         public CompatComponent<Map<String, DefaultedList<ItemStack>>> handleDropRules(DeathContext context) {
             Map<String, DefaultedList<ItemStack>> soulbound = new HashMap<>();
 
-            Vec3d deathPos = context.getDeathPos();
+            Vec3d deathPos = context.deathPos();
             for (Map.Entry<String, DefaultedList<ItemStack>> entry : this.inventory.entrySet()) {
                 String key = entry.getKey();
                 DefaultedList<ItemStack> items = entry.getValue();
@@ -191,7 +191,7 @@ public class OriginsCompat implements InvModCompat<Map<String, DefaultedList<Ite
 
                     switch (dropRule) {
                         case KEEP -> soulboundStacks.set(i, item);
-                        case DROP -> InventoryComponent.dropItemIfToBeDropped(item, deathPos.x, deathPos.y, deathPos.z, context.getWorld());
+                        case DROP -> InventoryComponent.dropItemIfToBeDropped(item, deathPos.x, deathPos.y, deathPos.z, context.world());
                     }
                     if (dropRule != DropRule.PUT_IN_GRAVE)
                         items.set(i, ItemStack.EMPTY);

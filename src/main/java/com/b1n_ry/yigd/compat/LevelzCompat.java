@@ -74,7 +74,7 @@ public class LevelzCompat implements InvModCompat<Float> {
                     return component;
                 }
                 case DROP -> {
-                    this.dropItems(context.getWorld(), context.getDeathPos());
+                    this.dropItems(context.world(), context.deathPos());
                     this.clear();
                 }
                 case DESTROY -> this.inventory = 0f;

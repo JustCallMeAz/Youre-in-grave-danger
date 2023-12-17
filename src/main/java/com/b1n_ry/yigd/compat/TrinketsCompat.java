@@ -213,7 +213,7 @@ public class TrinketsCompat implements InvModCompat<Map<String, Map<String, Defa
             YigdConfig.CompatConfig compatConfig = YigdConfig.getConfig().compatConfig;
             Map<String, Map<String, DefaultedList<Pair<TrinketEnums.DropRule, ItemStack>>>> soulboundInventory = new HashMap<>();
 
-            Vec3d deathPos = context.getDeathPos();
+            Vec3d deathPos = context.deathPos();
             // Traverse through groups
             for (Map.Entry<String, Map<String, DefaultedList<Pair<TrinketEnums.DropRule, ItemStack>>>> group : this.inventory.entrySet()) {
                 Map<String, DefaultedList<Pair<TrinketEnums.DropRule, ItemStack>>> soulboundGroup = new HashMap<>();
@@ -242,7 +242,7 @@ public class TrinketsCompat implements InvModCompat<Map<String, Map<String, Defa
 
                         switch (dropRule) {
                             case KEEP -> soulboundItems.set(i, new Pair<>(TrinketEnums.DropRule.DEFAULT, item));
-                            case DROP -> InventoryComponent.dropItemIfToBeDropped(item, deathPos.x, deathPos.y, deathPos.z, context.getWorld());
+                            case DROP -> InventoryComponent.dropItemIfToBeDropped(item, deathPos.x, deathPos.y, deathPos.z, context.world());
                         }
 
                         if (dropRule != DropRule.PUT_IN_GRAVE)

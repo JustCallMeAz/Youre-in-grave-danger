@@ -159,6 +159,7 @@ public class GraveBlock extends BlockWithEntity implements BlockEntityProvider, 
 
         ItemStack stack = player.getStackInHand(hand);
         NbtCompound nbt = stack.getNbt();
+
         if (stack.isOf(Items.PLAYER_HEAD) && nbt != null) {
             GameProfile profile = SkullBlockEntity.getProfile(nbt);
 
