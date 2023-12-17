@@ -12,6 +12,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.authlib.GameProfile;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.Decoder;
+import com.mojang.serialization.Encoder;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -44,6 +48,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 public class GraveBlock extends BlockWithEntity implements BlockEntityProvider, Waterloggable {
+    private static final MapCodec<GraveBlock> CODEC = createCodec(GraveBlock::new);
+
     private static VoxelShape SHAPE_EAST;
     private static VoxelShape SHAPE_WEST;
     private static VoxelShape SHAPE_SOUTH;
@@ -51,6 +57,11 @@ public class GraveBlock extends BlockWithEntity implements BlockEntityProvider, 
 
     public GraveBlock(Settings settings) {
         super(settings);
+    }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return CODEC;
     }
 
     @Override
