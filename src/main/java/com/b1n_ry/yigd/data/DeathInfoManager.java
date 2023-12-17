@@ -5,8 +5,7 @@ import com.b1n_ry.yigd.components.GraveComponent;
 import com.b1n_ry.yigd.components.RespawnComponent;
 import com.b1n_ry.yigd.config.YigdConfig;
 import com.mojang.authlib.GameProfile;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.datafixer.DataFixTypes;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtHelper;
@@ -14,7 +13,6 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.PersistentState;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,6 +31,11 @@ public class DeathInfoManager extends PersistentState {
 
     private ListMode graveListMode = ListMode.BLACKLIST;
     private final Set<GameProfile> affectedPlayers = new HashSet<>();
+
+
+    public static PersistentState.Type<DeathInfoManager> getPersistentStateType(MinecraftServer server) {
+        return new PersistentState.Type<>(DeathInfoManager::new, (nbt) -> fromNbt(nbt, server), DataFixTypes.SAVED_DATA_RAIDS);
+    }
 
     public void clear() {
         this.respawnEffects.clear();
@@ -162,7 +165,7 @@ public class DeathInfoManager extends PersistentState {
         return nbt;
     }
 
-    public static PersistentState fromNbt(NbtCompound nbt, MinecraftServer server) {
+    public static DeathInfoManager fromNbt(NbtCompound nbt, MinecraftServer server) {
         INSTANCE.clear();
 
         NbtList respawnNbt = nbt.getList("respawns", NbtElement.COMPOUND_TYPE);
